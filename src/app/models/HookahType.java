@@ -1,3 +1,11 @@
 package app.models;
 
-public enum HookahType { CLASSIC, ELECTRONIC, DESIGNER }
+/*
+ * HookahType — типы кальяна.
+ */
+
+public enum HookahType {
+    CLASSIC,
+    ELECTRONIC,
+    DESIGNER
+}

@@ -1,14 +1,24 @@
 package app.models;
 
+/*
+ * Catalog — хранит списки кальянов, вкусов и меню;
+ * также хранит пары несовместимых вкусов.
+ */
+
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Catalog implements Serializable {
     private static final long serialVersionUID = 1L;
+
     public List<Hookah> hookahs = new ArrayList<>();
     public List<Flavor> flavors = new ArrayList<>();
     public List<MenuItem> menu = new ArrayList<>();
-    // incompatible tastes map
     public Map<String, Set<String>> incompatible = new HashMap<>();
 
     public void seedSampleData() {
@@ -17,11 +27,21 @@ public class Catalog implements Serializable {
             hookahs.add(new Hookah("Электро-стиль", HookahType.ELECTRONIC, 900));
             hookahs.add(new Hookah("Дизайнерский Deluxe", HookahType.DESIGNER, 1500));
         }
+
         if (flavors.isEmpty()) {
-            Collections.addAll(flavors, new Flavor("Виноград"), new Flavor("Яблоко"), new Flavor("Мята"), new Flavor("Лимон"), new Flavor("Кола"), new Flavor("Ваниль"), new Flavor("Карамель"), new Flavor("Шоколад"));
+            flavors.add(new Flavor("Виноград"));
+            flavors.add(new Flavor("Яблоко"));
+            flavors.add(new Flavor("Мята"));
+            flavors.add(new Flavor("Лимон"));
+            flavors.add(new Flavor("Кола"));
+            flavors.add(new Flavor("Ваниль"));
+            flavors.add(new Flavor("Карамель"));
+            flavors.add(new Flavor("Шоколад"));
+
             addIncompatibility("Мята", "Ваниль");
             addIncompatibility("Кола", "Карамель");
         }
+
         if (menu.isEmpty()) {
             menu.add(new MenuItem("Чай зелёный", 150));
             menu.add(new MenuItem("Капучино", 200));
@@ -32,16 +52,20 @@ public class Catalog implements Serializable {
     }
 
     public void addIncompatibility(String a, String b) {
-        incompatible.computeIfAbsent(a, k->new HashSet<>()).add(b);
-        incompatible.computeIfAbsent(b, k->new HashSet<>()).add(a);
+        if (a == null || b == null) return;
+        incompatible.computeIfAbsent(a, k -> new HashSet<>()).add(b);
+        incompatible.computeIfAbsent(b, k -> new HashSet<>()).add(a);
     }
 
     public boolean areFlavorsCompatible(List<Flavor> list) {
-        for (int i=0;i<list.size();i++){
-            for (int j=i+1;j<list.size();j++){
+        if (list == null || list.size() < 2) return true;
+
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = i + 1; j < list.size(); j++) {
                 String a = list.get(i).name;
                 String b = list.get(j).name;
-                if (incompatible.containsKey(a) && incompatible.get(a).contains(b)) return false;
+                Set<String> set = incompatible.get(a);
+                if (set != null && set.contains(b)) return false;
             }
         }
         return true;
