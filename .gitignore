@@ -1,6 +1,7 @@
 /build.gradle
 /gradlew
 /settings.gradle
+/gradlew.bat
 
 .gradle/
 build/
