@@ -1,5 +1,41 @@
-# Default ignored files
-/shelf/
-/workspace.xml
-# Editor-based HTTP Client requests
-/httpRequests/
+# Gradle
+.gradle/
+build/
+
+# Gradle wrapper - keep wrapper scripts and properties (do NOT ignore them)
+!gradle/wrapper/gradle-wrapper.properties
+!gradle/wrapper/gradle-wrapper.jar
+!gradlew
+!gradlew.bat
+
+# Compiled class files
+*.class
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# Distribution archives
+*.zip
+*.tar
+*.tar.gz
+
+# IDEA
+.idea/
+*.iml
+workspace.xml
+vcs.xml
+
+# Eclipse
+.project
+.classpath
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
+
+# Logs and temp
+*.log
+out/
+tmp/
