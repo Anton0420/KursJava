@@ -1,3 +1,7 @@
+/build.gradle
+/gradlew
+/settings.gradle
+
 .gradle/
 build/
 out/
