@@ -41,7 +41,6 @@ public class MainWindow {
 
     // UI элементы
     private ListView<Hookah> hookahList;
-    // используем полное имя для модели MenuItem, чтобы не путаться с javafx.scene.control.MenuItem
     private ListView<app.models.MenuItem> menuList;
     private ListView<app.models.Flavor> flavorList;
     private TextArea ordersArea;
