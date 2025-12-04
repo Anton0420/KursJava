@@ -104,7 +104,6 @@ public class ConsoleApp {
 
     private void createOrder() {
         System.out.println("=== Оформление заказа ===");
-        // цикл, чтобы дать пользователю шанс вернуться и выбрать
         while (true) {
             System.out.print("Имя клиента (Enter — Гость): ");
             String client = sc.nextLine().trim();
@@ -135,7 +134,6 @@ public class ConsoleApp {
                 o.items.addAll(chooseMenuItems());
             }
 
-            // Если пользователь не выбрал ни кальян, ни ничего из меню = уточнить
             boolean nothingSelected = (o.hookah == null) && (o.items.isEmpty());
             if (nothingSelected) {
                 boolean close = promptYesNo("Вы ничего не выбрали. Закрыть заказ?");
@@ -154,7 +152,7 @@ public class ConsoleApp {
             if (!confirm) {
                 System.out.println("Заказ не сохранён. Начать заново?");
                 if (promptYesNo("Хотите начать оформление заново?")) {
-                    continue; // начнём заново
+                    continue;
                 } else {
                     System.out.println("Заказ отменён.");
                     return;
@@ -168,7 +166,6 @@ public class ConsoleApp {
         }
     }
 
-    // вопрос Да/Нет.
     private boolean promptYesNo(String prompt) {
         while (true) {
             System.out.print(prompt + " (y/n): ");
