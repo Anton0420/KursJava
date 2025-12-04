@@ -188,7 +188,7 @@ public class MainWindow {
         BookingDialog dlg = new BookingDialog();
         var result = dlg.showAndWait();
         if (result.isPresent()) {
-            var info = result.get(); 
+            var info = result.get();
             String client = info.getClient();
             int room = info.getRoom();
             LocalDateTime from = info.getFrom();

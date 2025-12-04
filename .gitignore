@@ -1,20 +1,16 @@
-/build.gradle
-/gradlew
-/settings.gradle
-/gradlew.bat
-
 .gradle/
 build/
 out/
+
 *.class
 *.jar
 
 .idea/
-*.iml
-*.ipr
-*.iws
 
 .DS_Store
 Thumbs.db
 
 *.log
+
+*.dat
+
