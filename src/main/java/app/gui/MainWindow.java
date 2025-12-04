@@ -126,7 +126,7 @@ public class MainWindow {
         ObservableList<app.models.Flavor> chosenFlavors = flavorList.getSelectionModel().getSelectedItems();
         ObservableList<app.models.MenuItem> chosenMenu = menuList.getSelectionModel().getSelectedItems();
 
-        Order o = orderService.createOrder("GUI-клиент");
+        Order o = orderService.createOrder("GUI-клиент"); // временно
 
         if (selected != null) {
             o.hookah = selected;
@@ -142,7 +142,31 @@ public class MainWindow {
             o.items.addAll(chosenMenu);
         }
 
+        if (o.hookah == null && o.items.isEmpty()) {
+            Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+            a.setTitle("Пустой заказ");
+            a.setHeaderText(null);
+            a.setContentText("Вы ничего не выбрали. Закрыть заказ?");
+            var res = a.showAndWait();
+            if (res.isEmpty() || res.get() != ButtonType.OK) {
+                return;
+            } else {
+                statusLabel.setText("Статус: заказ отменён");
+                return;
+            }
+        }
+
+        OrderDetailsDialog d = new OrderDetailsDialog();
+        var infoOpt = d.showAndWait();
+        if (infoOpt.isEmpty()) {
+            statusLabel.setText("Статус: оформление заказа отменено пользователем");
+            return;
+        }
+        var info = infoOpt.get();
+        o.clientName = info.getName();
+
         orderService.placeOrder(o);
+
         FileStorage.saveOrders(orders);
         statusLabel.setText("Статус: заказ создан (id=" + o.id.toString().substring(0,8) + ")");
         updateOrdersArea();
