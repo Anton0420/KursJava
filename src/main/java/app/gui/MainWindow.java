@@ -166,11 +166,8 @@ public class MainWindow {
         o.clientName = info.getName();
 
         orderService.placeOrder(o);
-<<<<<<< HEAD
+
         FileStorage.saveOrders(orders);
-=======
-        FileStorage.saveOrders(orders); 
->>>>>>> 98132e2e453a15dc5f558ce36748f42bb8d2eff8
         statusLabel.setText("Статус: заказ создан (id=" + o.id.toString().substring(0,8) + ")");
         updateOrdersArea();
     }
