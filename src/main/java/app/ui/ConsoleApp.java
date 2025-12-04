@@ -103,37 +103,98 @@ public class ConsoleApp {
     }
 
     private void createOrder() {
-        System.out.print("Имя клиента: ");
-        String client = sc.nextLine().trim();
-        if (client.isEmpty()) client = "Гость";
+        System.out.println("=== Оформление заказа ===");
+        // цикл, чтобы дать пользователю шанс вернуться и выбрать
+        while (true) {
+            System.out.print("Имя клиента (Enter — Гость): ");
+            String client = sc.nextLine().trim();
+            if (client.isEmpty()) client = "Гость";
 
-        Order o = orderService.createOrder(client);
+            Order o = orderService.createOrder(client);
 
-        System.out.print("Добавить кальян? (y/n): ");
-        String addHookah = sc.nextLine().trim();
-        if ("y".equalsIgnoreCase(addHookah)) {
-            Hookah h = chooseHookah();
-            if (h != null) {
-                o.hookah = h;
-                o.flavors = chooseFlavors();
-                if (!catalog.areFlavorsCompatible(o.flavors)) {
-                    System.out.println("Выбранные вкусы несовместимы. Кальян не добавлен.");
-                    o.hookah = null;
-                    o.flavors.clear();
+            // выбор кальяна
+            System.out.print("Добавить кальян? (y/n): ");
+            String addHookah = sc.nextLine().trim();
+            if ("y".equalsIgnoreCase(addHookah)) {
+                Hookah h = chooseHookah();
+                if (h != null) {
+                    o.hookah = h;
+                    o.flavors = chooseFlavors();
+                    if (!catalog.areFlavorsCompatible(o.flavors)) {
+                        System.out.println("Выбранные вкусы несовместимы. Кальян не добавлен.");
+                        o.hookah = null;
+                        o.flavors.clear();
+                    }
                 }
             }
-        }
 
-        System.out.print("Добавить напитки/блюда? (y/n): ");
-        String addItems = sc.nextLine().trim();
-        if ("y".equalsIgnoreCase(addItems)) {
-            List<MenuItem> chosen = chooseMenuItems();
-            o.items.addAll(chosen);
-        }
+            // выбор меню
+            System.out.print("Добавить напитки/блюда? (y/n): ");
+            String addItems = sc.nextLine().trim();
+            if ("y".equalsIgnoreCase(addItems)) {
+                o.items.addAll(chooseMenuItems());
+            }
 
-        orderService.placeOrder(o);
-        System.out.println("Заказ оформлен:");
-        System.out.println(o);
+            // Если пользователь не выбрал ни кальян, ни ничего из меню = уточнить
+            boolean nothingSelected = (o.hookah == null) && (o.items.isEmpty());
+            if (nothingSelected) {
+                boolean close = promptYesNo("Вы ничего не выбрали. Закрыть заказ?");
+                if (close) {
+                    System.out.println("Заказ отменён.");
+                    return;
+                } else {
+                    System.out.println("Хорошо — выберите кальян или позиции меню.");
+                    continue;
+                }
+            }
+
+            System.out.println("\nСводка заказа:");
+            System.out.println(o);
+            boolean confirm = promptYesNo("Подтвердить и сохранить заказ?");
+            if (!confirm) {
+                System.out.println("Заказ не сохранён. Начать заново?");
+                if (promptYesNo("Хотите начать оформление заново?")) {
+                    continue; // начнём заново
+                } else {
+                    System.out.println("Заказ отменён.");
+                    return;
+                }
+            }
+
+            orderService.placeOrder(o);
+            System.out.println("Заказ оформлен:");
+            System.out.println(o);
+            return;
+        }
+    }
+
+    // вопрос Да/Нет.
+    private boolean promptYesNo(String prompt) {
+        while (true) {
+            System.out.print(prompt + " (y/n): ");
+            String in = sc.nextLine().trim().toLowerCase();
+            if (in.equals("y") || in.equals("yes") || in.equals("да") ) return true;
+            if (in.equals("n") || in.equals("no") || in.equals("нет")) return false;
+            System.out.println("Пожалуйста, введите 'y' или 'n'.");
+        }
+    }
+
+    private String promptPattern(String prompt, String hint, java.util.regex.Pattern pattern) {
+        while (true) {
+            System.out.print(prompt + (hint == null ? "" : " (" + hint + "): "));
+            String s = sc.nextLine().trim();
+            if (s.isEmpty()) {
+                System.out.println("Ввод не может быть пустым.");
+                continue;
+            }
+            if (pattern != null) {
+                if (!pattern.matcher(s).matches()) {
+                    System.out.println("Неверный формат. " + (hint == null ? "" : "Ожидается: " + hint));
+                    continue;
+                }
+            }
+            return s;
+        }
     }
 
     private Hookah chooseHookah() {
