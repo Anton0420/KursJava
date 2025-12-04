@@ -41,7 +41,6 @@ public class MainWindow {
 
     // UI элементы
     private ListView<Hookah> hookahList;
-    // используем полное имя для модели MenuItem, чтобы не путаться с javafx.scene.control.MenuItem
     private ListView<app.models.MenuItem> menuList;
     private ListView<app.models.Flavor> flavorList;
     private TextArea ordersArea;
@@ -167,7 +166,11 @@ public class MainWindow {
         o.clientName = info.getName();
 
         orderService.placeOrder(o);
+<<<<<<< HEAD
         FileStorage.saveOrders(orders);
+=======
+        FileStorage.saveOrders(orders); 
+>>>>>>> 98132e2e453a15dc5f558ce36748f42bb8d2eff8
         statusLabel.setText("Статус: заказ создан (id=" + o.id.toString().substring(0,8) + ")");
         updateOrdersArea();
     }
@@ -188,7 +191,7 @@ public class MainWindow {
         BookingDialog dlg = new BookingDialog();
         var result = dlg.showAndWait();
         if (result.isPresent()) {
-            var info = result.get(); // BookingInfo
+            var info = result.get(); 
             String client = info.getClient();
             int room = info.getRoom();
             LocalDateTime from = info.getFrom();
