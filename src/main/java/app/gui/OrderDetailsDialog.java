@@ -2,7 +2,6 @@ package app.gui;
 
 /*
  * OrderDetailsDialog — диалог для  ввода данных клиента перед сохранением заказа.
- * Возвращает Optional<OrderDetails>.
  */
 
 import javafx.geometry.Insets;
