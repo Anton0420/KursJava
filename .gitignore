@@ -1,16 +1,19 @@
+build.gradle
+gradlew
+settings.gradle
+gradlew.bat
+
 .gradle/
+
 build/
+
 out/
 
 *.class
-*.jar
 
 .idea/
 
-.DS_Store
-Thumbs.db
-
 *.log
 
-*.dat
-
+/qodana.yaml
+.github/workflows/qodana_code_quality.yml
