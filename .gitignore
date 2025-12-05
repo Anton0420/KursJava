@@ -4,14 +4,16 @@ settings.gradle
 gradlew.bat
 
 .gradle/
+
 build/
+
 out/
+
 *.class
-*.jar
 
 .idea/
 
 *.log
 
-qodana.yaml
-qodana_code_quality.yml
+/qodana.yaml
+.github/workflows/qodana_code_quality.yml
